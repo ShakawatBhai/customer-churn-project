@@ -1,14 +1,4 @@
 # 🔁 Customer Churn Prediction
-### End-to-End Binary Classification · Logistic Regression · Random Forest · XGBoost · SHAP Explainability · Streamlit Deployment
-
-
-![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-1.8.0-orange?logo=scikit-learn&logoColor=white)
-![XGBoost](https://img.shields.io/badge/XGBoost-3.2.0-red)
-![SHAP](https://img.shields.io/badge/SHAP-Explainability-blueviolet)
-![Streamlit](https://img.shields.io/badge/Streamlit-Deployed-ff4b4b?logo=streamlit&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green)
-
 ---
 
 ## 🚀 Key Results
@@ -72,7 +62,7 @@ The model enables retention teams to take **targeted, cost-efficient action** in
 
 ## 🌐 Live App
 
-The model is deployed as a fully interactive web application on **Streamlit Community Cloud**.
+The model is deployed as a fully interactive web application on **(https://customer-churn-project-32.streamlit.app/)**.
 
 
 
@@ -276,22 +266,19 @@ SHAP (SHapley Additive exPlanations) was used to provide directional, per-predic
 
 ---
 
-## 🛠️ Technologies and Tools Used
 
-| Category | Tools |
-|---|---|
-| **Language** | Python 3.10+ |
-| **Data Manipulation** | `pandas`, `numpy` |
-| **Machine Learning** | `scikit-learn 1.8.0`, `xgboost 3.2.0` |
-| **Explainability** | `shap` |
-| **Visualisation** | `matplotlib`, `seaborn` |
-| **Model Serialisation** | `joblib` |
-| **Hyperparameter Tuning** | `RandomizedSearchCV` |
-| **Validation** | `StratifiedKFold` |
-| **App Framework** | `streamlit` |
-| **Development Environment** | Google Colab |
-| **Deployment** | Streamlit Community Cloud |
-| **Version Control** | Git / GitHub |
+## Tech stack
+
+- Python 3.10+
+- pandas
+- numpy
+- scikit-learn 1.8.0
+- xgboost 3.2.0
+- shap
+- matplotlib
+- seaborn
+- joblib
+- streamlit
 
 ---
 
@@ -323,106 +310,42 @@ customer-churn-prediction/
 
 ---
 
-## ▶️ How to Run the Project
+## Local setup
 
-### Option 1 — Use the Live App (No Setup Required)
-
-
-
-Enter customer details in the sidebar and get an instant churn prediction with SHAP explanation, or upload a CSV for batch scoring.
-
----
-
-### Option 2 — Run Locally
-
-#### 1. Clone the Repository
+1. Clone the repository
+2. Create a virtual environment
+3. Install dependencies
 
 ```bash
-git clone https://github.com/ShakawatBhai/customer-churn-project.git
-cd customer-churn-prediction
-```
-
-#### 2. Install Dependencies
-
-```bash
+cd E:\customer-churn-prediction-main
+python -m venv .venv
+.venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-**`requirements.txt`**
-```
-pandas>=2.0
-numpy>=1.24
-scikit-learn>=1.4
-xgboost>=2.0
-shap>=0.44
-matplotlib>=3.7
-seaborn>=0.12
-joblib>=1.3
-streamlit>=1.35.0
-```
-
-#### 3. Launch the Streamlit App
+Run the app:
 
 ```bash
 streamlit run app.py
 ```
 
-#### 4. Or Run the Notebook
+## Streamlit Cloud deployment
 
-```bash
-jupyter notebook churn_prediction.ipynb
-```
+For Streamlit Community Cloud:
 
-Or open directly in Google Colab using the badge at the top of this README.
+- set the app main file to `app.py`
+- make sure the repo includes `app.py`, `requirements.txt`, and `churn_model_pipeline.pkl`
+- no secrets are required for this app
+- leave the Secrets section empty unless your app later requires environment variables
 
----
+### Important deployment notes
 
-### Option 3 — Run Inference Directly in Python
+- The serialized model must match the dependency versions used during training.
+- In this project, the working versions are:
+  - scikit-learn 1.8.0
+  - xgboost 3.2.0
+- If you switch to a different Python package version, retrain and save the model again before deployment.
 
-> **Note:** The `.pkl` file in the repo is pre-trained. Run the notebook only if you want to retrain. To use the existing model:
-
-```python
-import joblib
-import pandas as pd
-
-pipeline = joblib.load('churn_model_pipeline.pkl')
-
-new_customer = pd.DataFrame([{
-    'region_category'             : 'City',
-    'membership_category'         : 'Basic Membership',
-    'joining_month'               : 3,
-    'channel_code'                : 'Web',
-    'avg_frequency_login_days'    : 30,
-    'points_in_wallet'            : 150.0,
-    'used_special_discount'       : 'No',
-    'offer_application_preference': 'No',
-    'past_complaint'              : 'Yes',
-    'complaint_status'            : 'Unsolved',
-    'feedback'                    : 'Poor Customer Support',
-    'avg_transaction_value'       : 20000,
-    'avg_time_spent'              : 8.0,
-    'no_of_days_visited'          : 5,
-}])
-
-pred  = pipeline.predict(new_customer)[0]
-prob  = pipeline.predict_proba(new_customer)[0][1]
-
-print(f"Churn Prediction : {'CHURN' if pred == 1 else 'NO CHURN'}")
-print(f"Churn Probability: {prob * 100:.1f}%")
-```
-
----
-
-## ⚠️ Deployment Notes
-
-Deploying a serialised sklearn pipeline across environments requires careful version matching. Key lessons from this project:
-
-- **sklearn/XGBoost version mismatch** is the most common cause of `AttributeError` when loading `.pkl` files. The serialised model must be trained with the **exact same library versions** that will be used at inference time.
-- **Streamlit Community Cloud** does not honour `runtime.txt` for Python version pinning — the platform controls the Python version independently.
-- **Resolution workflow:** Check the Streamlit Cloud build logs to find the exact versions it installed → reinstall those exact versions in your training environment (Colab) → retrain → resave the `.pkl` → redeploy. This guarantees environment parity.
-- **Current production versions:** `scikit-learn==1.8.0`, `xgboost==3.2.0`
-
----
 
 ## 🔭 Future Improvements
 
@@ -438,7 +361,7 @@ Deploying a serialised sklearn pipeline across environments requires careful ver
 
 ## 📄 License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+This project is provided for learning and demo purposes. Use it as needed for experimentation, portfolio work, or deployment demos.
 
 ---
 
